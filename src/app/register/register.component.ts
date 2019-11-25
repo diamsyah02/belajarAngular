@@ -1,4 +1,6 @@
 import { Component, OnInit } from '@angular/core';
+import { HeroService } from "../service/hero.service";
+import { Router } from "@angular/router";
 
 @Component({
   selector: 'app-register',
@@ -11,8 +13,12 @@ export class RegisterComponent implements OnInit {
   public phone;
   public password;
   public showPass: boolean = false;
+  public loading = false;
 
-  constructor() { }
+  constructor(
+    public service: HeroService,
+    public router: Router
+  ) { }
 
   ngOnInit() {
   }
@@ -27,7 +33,24 @@ export class RegisterComponent implements OnInit {
     }else if(!this.password){
       alert('Anda belum mengisi password');
     }else{
-      alert('Username : '+this.username+' - Email : '+this.email+' - Phone : '+this.phone+' - Password : '+this.password);
+      this.loading = true;
+      let data = {
+        'username': this.username,
+        'email': this.email,
+        'noTelp': this.phone,
+        'password': this.password
+      }
+      this.service.postData('Auth/register', data)
+      .subscribe(data => {
+        this.loading = false;
+        console.log(data);
+        localStorage.setItem('loginDida', JSON.stringify(data.data));
+        this.router.navigate(['home']);
+      }, err => {
+        console.log(err);
+        this.loading = false;
+        alert('Anda gagal register, mohon periksa koneksi internet atau mungkin kerna email sudah ada yang pakai');
+      });
     }
   }
 

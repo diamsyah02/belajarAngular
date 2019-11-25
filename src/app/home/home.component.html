@@ -1,1 +1,61 @@
-<p>home works!</p>
+<nav class="navbar navbar-expand-lg navbar-dark bg-primary static-top">
+    <div class="container">
+        <a class="navbar-brand" href="#">
+            <img src="../../assets/imgs/angularLogo.png" alt="angular" width="70" height="70">
+            <small class="text-light">{{userLogin}}</small>
+        </a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarResponsive"
+            aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarResponsive">
+            <ul class="navbar-nav ml-auto">
+                <li class="nav-item active">
+                    <a class="nav-link" href="#">Home
+                        <span class="sr-only">(current)</span>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" (click)="coomingSon()">About</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" (click)="coomingSon()">Services</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" (click)="coomingSon()">Contact</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" (click)="logout()">Logout</a>
+                </li>
+            </ul>
+        </div>
+    </div>
+</nav>
+<div class="container">
+    <br>
+    <h4 class="text-dark">Data Teka Teki</h4>
+    <table class="table">
+        <thead class="thead-light">
+            <tr>
+                <th scope="col">#</th>
+                <th scope="col">Soal</th>
+                <th scope="col">Clue</th>
+                <th scope="col">Jawaban</th>
+                <th scope="col">Alasan</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr *ngFor="let data of datas; let i = index">
+                <th scope="row">{{i+1}}</th>
+                <td>{{data.pertanyaan}}</td>
+                <td>{{data.clue}}</td>
+                <td>{{data.jawaban}}</td>
+                <td>{{data.alasan}}</td>
+            </tr>
+        </tbody>
+    </table>
+</div>
+<div class="my-container">
+    <ngx-loading [show]="loading" [config]="{ backdropBorderRadius: '3px' }">
+    </ngx-loading>
+</div>

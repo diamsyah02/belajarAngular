@@ -1,4 +1,6 @@
 import { Component, OnInit } from '@angular/core';
+import { HeroService } from "../service/hero.service";
+import { Router } from "@angular/router";
 
 @Component({
   selector: 'app-login',
@@ -6,22 +8,42 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./login.component.css']
 })
 export class LoginComponent implements OnInit {
-  public username;
+  public email;
   public password;
   public showPass: boolean = false;
+  public loading = false;
 
-  constructor() { }
+  constructor(
+    public service: HeroService,
+    public router: Router
+  ) {
+    localStorage.removeItem('loginDida');
+  }
 
   ngOnInit() {
   }
 
   login(){
-    if(!this.username){
-      alert('Anda belum mengisi username');
+    if(!this.email){
+      alert('Anda belum mengisi email');
     }else if(!this.password){
       alert('Anda belum mengisi password');
     }else{
-      alert(this.username+' - '+this.password);
+      this.loading = true;
+      let data = {
+        'email': this.email,
+        'password': this.password
+      }
+      this.service.postData('Auth/login', data)
+      .subscribe(data => {
+        this.loading = false;
+        console.log(data);
+        localStorage.setItem('loginDida', JSON.stringify(data.data));
+        this.router.navigate(['home']);
+      }, err => {
+        this.loading = false;
+        alert('Anda gagal login');
+      });
     }
   }
 
